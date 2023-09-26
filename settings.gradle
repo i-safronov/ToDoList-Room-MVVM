@@ -1,2 +1,3 @@
 rootProject.name='Simple To Do List'
 include ':app'
+include ':data'
