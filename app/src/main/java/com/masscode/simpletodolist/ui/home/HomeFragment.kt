@@ -14,7 +14,6 @@ import com.masscode.simpletodolist.adapter.ListAdapter
 import com.masscode.simpletodolist.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.FragmentHomeBinding
 import com.masscode.simpletodolist.utils.hideKeyboard
-import com.masscode.simpletodolist.utils.logD
 import com.masscode.simpletodolist.utils.shortToast
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
 import com.masscode.simpletodolist.viewmodel.TodoViewModelFactory
@@ -22,9 +21,6 @@ import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
@@ -82,10 +78,9 @@ class HomeFragment : Fragment() {
         binding.rvTodo.adapter = todoAdapter
         binding.rvTodo.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         binding.rvTodo.itemAnimator = FadeInUpAnimator().apply {
-            addDuration = 100
+            addDuration = RCV_ANIMATOR_DURATION
         }
     }
-
 
     private fun getAllTodos() {
         viewModel.getAllTodos().observe(viewLifecycleOwner) { list ->
@@ -94,12 +89,11 @@ class HomeFragment : Fragment() {
             if (list.isEmpty()) {
                 binding.noDataImage.visibility = View.VISIBLE
                 binding.noDataText.visibility = View.VISIBLE
-                binding.totalTask.text = "0"
+                binding.totalTask.text = NO_TASKS
             } else {
                 binding.noDataImage.visibility = View.GONE
                 binding.noDataText.visibility = View.GONE
                 binding.totalTask.text = list.size.toString()
-                logD("List is: ${list}")
                 showAllTodos(list)
             }
 
@@ -111,7 +105,7 @@ class HomeFragment : Fragment() {
             if (list.isNotEmpty()) {
                 binding.completed.text = list.size.toString()
                 showAllTodos(list)
-            } else binding.completed.text = "0"
+            } else binding.completed.text = NO_TASKS
         }
     }
 
@@ -150,7 +144,6 @@ class HomeFragment : Fragment() {
                     setMessage(getString(R.string.all_delete_are_you_sure))
                     setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.deleteSelected()
-
                         context.shortToast(getString(R.string.toast_all_deleted))
                     }
                     setNegativeButton(getString(R.string.no)) { dialog, _ ->
@@ -173,6 +166,11 @@ class HomeFragment : Fragment() {
                 }.create().show()
             }
         }
+    }
+
+    companion object {
+        private const val NO_TASKS = "0"
+        private const val RCV_ANIMATOR_DURATION = 100L
     }
 
 }
