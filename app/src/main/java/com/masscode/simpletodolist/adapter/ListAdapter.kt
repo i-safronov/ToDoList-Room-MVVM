@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.masscode.simpletodolist.R
 import com.masscode.simpletodolist.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.ItemTodoBinding
+import com.masscode.simpletodolist.utils.logD
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
 
 class ListAdapter(private val viewModel: TodoViewModel) :
@@ -32,7 +33,6 @@ class ListAdapter(private val viewModel: TodoViewModel) :
             parent,
             false
         )
-
         return MyViewHolder(view)
     }
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.masscode.simpletodolist.R
 import com.masscode.simpletodolist.adapter.ListAdapter
+import com.masscode.simpletodolist.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.FragmentHomeBinding
 import com.masscode.simpletodolist.utils.hideKeyboard
 import com.masscode.simpletodolist.utils.logD
@@ -32,7 +33,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: TodoViewModel
 
-    private lateinit var adapter: ListAdapter
+    private lateinit var todoAdapter: ListAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[TodoViewModel::class.java]
 
         mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        adapter = ListAdapter(viewModel)
+        todoAdapter = ListAdapter(viewModel)
 
         val mDate = Calendar.getInstance().time
         val formatter = SimpleDateFormat("EEEE, MMM dd yyyy")
@@ -70,7 +71,7 @@ class HomeFragment : Fragment() {
         setupRecyclerview()
 
         viewModel.getAllTodos().observe(viewLifecycleOwner) { list ->
-            adapter.setData(list)
+            todoAdapter.setData(list)
 
             if (list.isEmpty()) {
                 binding.noDataImage.visibility = View.VISIBLE
@@ -81,6 +82,7 @@ class HomeFragment : Fragment() {
                 binding.noDataText.visibility = View.GONE
                 binding.totalTask.text = list.size.toString()
                 logD("List is: ${list}")
+                showAllTodos(list)
             }
 
         }
@@ -88,18 +90,21 @@ class HomeFragment : Fragment() {
         viewModel.getAllCompleted().observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 binding.completed.text = list.size.toString()
+                showAllTodos(list)
             } else binding.completed.text = "0"
         }
 
     }
 
+    private fun showAllTodos(list: List<Todo>) {
+        todoAdapter.setData(list)
+    }
+
     private fun setupRecyclerview() {
-        with(binding.rvTodo) {
-            adapter = adapter
-            layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            itemAnimator = FadeInUpAnimator().apply {
-                addDuration = 100
-            }
+        binding.rvTodo.adapter = todoAdapter
+        binding.rvTodo.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        binding.rvTodo.itemAnimator = FadeInUpAnimator().apply {
+            addDuration = 100
         }
     }
 
