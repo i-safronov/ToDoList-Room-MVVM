@@ -5,13 +5,13 @@
     <item
         android:id="@+id/delete_selected"
         android:icon="@drawable/ic_delete_selected"
-        android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+        android:title="@string/delete_checked_lists"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_all"
         android:icon="@drawable/ic_delete_forever"
-        android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+        android:title="@string/delete_all"
+        app:showAsAction="never" />
 
 </menu>

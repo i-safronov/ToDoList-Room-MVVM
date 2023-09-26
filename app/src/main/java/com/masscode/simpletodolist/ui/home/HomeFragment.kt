@@ -1,6 +1,5 @@
 package com.masscode.simpletodolist.ui.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -30,46 +29,65 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
-
     private lateinit var viewModel: TodoViewModel
-
     private lateinit var todoAdapter: ListAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater)
-        setHasOptionsMenu(true)
-        activity?.hideKeyboard()
+        try {
+            binding = FragmentHomeBinding.inflate(inflater)
+            setHasOptionsMenu(true)
+            activity?.hideKeyboard()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         return binding.root
     }
 
-    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        try {
+            init()
+            setup()
+            getAllTodos()
+            getAllCompletedTodos()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
+    private fun init() {
         val viewModelFactory = TodoViewModelFactory.getInstance(requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory)[TodoViewModel::class.java]
-
         mLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         todoAdapter = ListAdapter(viewModel)
+    }
 
+    private fun setup() {
         val mDate = Calendar.getInstance().time
         val formatter = SimpleDateFormat("EEEE, MMM dd yyyy")
         val currentDate = formatter.format(mDate)
-
         binding.apply {
             date.text = currentDate
             addTaskBtn.setOnClickListener(
-                    Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_addFragment)
+                Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_addFragment)
             )
         }
-
-        // Setup RecyclerView
         setupRecyclerview()
+    }
 
+    private fun setupRecyclerview() {
+        binding.rvTodo.adapter = todoAdapter
+        binding.rvTodo.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        binding.rvTodo.itemAnimator = FadeInUpAnimator().apply {
+            addDuration = 100
+        }
+    }
+
+
+    private fun getAllTodos() {
         viewModel.getAllTodos().observe(viewLifecycleOwner) { list ->
             todoAdapter.setData(list)
 
@@ -86,26 +104,19 @@ class HomeFragment : Fragment() {
             }
 
         }
+    }
 
+    private fun getAllCompletedTodos() {
         viewModel.getAllCompleted().observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 binding.completed.text = list.size.toString()
                 showAllTodos(list)
             } else binding.completed.text = "0"
         }
-
     }
 
     private fun showAllTodos(list: List<Todo>) {
         todoAdapter.setData(list)
-    }
-
-    private fun setupRecyclerview() {
-        binding.rvTodo.adapter = todoAdapter
-        binding.rvTodo.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-        binding.rvTodo.itemAnimator = FadeInUpAnimator().apply {
-            addDuration = 100
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
