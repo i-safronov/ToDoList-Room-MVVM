@@ -14,6 +14,7 @@ import com.masscode.simpletodolist.R
 import com.masscode.simpletodolist.adapter.ListAdapter
 import com.masscode.simpletodolist.databinding.FragmentHomeBinding
 import com.masscode.simpletodolist.utils.hideKeyboard
+import com.masscode.simpletodolist.utils.logD
 import com.masscode.simpletodolist.utils.shortToast
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
 import com.masscode.simpletodolist.viewmodel.TodoViewModelFactory
@@ -68,7 +69,7 @@ class HomeFragment : Fragment() {
         // Setup RecyclerView
         setupRecyclerview()
 
-        viewModel.getAllTodos().observe(viewLifecycleOwner, { list ->
+        viewModel.getAllTodos().observe(viewLifecycleOwner) { list ->
             adapter.setData(list)
 
             if (list.isEmpty()) {
@@ -79,13 +80,17 @@ class HomeFragment : Fragment() {
                 binding.noDataImage.visibility = View.GONE
                 binding.noDataText.visibility = View.GONE
                 binding.totalTask.text = list.size.toString()
+                logD("List is: ${list}")
             }
-        })
 
-        viewModel.getAllCompleted().observe(viewLifecycleOwner, { list ->
-            if (list.isNotEmpty()) binding.completed.text = list.size.toString()
-            else binding.completed.text = "0"
-        })
+        }
+
+        viewModel.getAllCompleted().observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                binding.completed.text = list.size.toString()
+            } else binding.completed.text = "0"
+        }
+
     }
 
     private fun setupRecyclerview() {
