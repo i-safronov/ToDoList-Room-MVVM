@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.sfr.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.TodoEntity
 
-@Database(version = 1, entities = [Todo::class])
+@Database(version = 3, entities = [TodoEntity::class])
 abstract class TodoDb : RoomDatabase() {
 
     abstract fun todoDAO(): TodoDAO

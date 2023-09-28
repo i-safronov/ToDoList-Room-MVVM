@@ -1,30 +1,35 @@
 package com.masscode.simpletodolist.viewmodel
 
 import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.sfr.data.repository.TodoRepository
-import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.di.Injection
+import com.sfr.domain.entity.Todo
 import kotlinx.coroutines.launch
 
-class TodoViewModel(private val repository: com.sfr.data.repository.TodoRepository): ViewModel() {
+class TodoViewModel(private val repository: TodoRepository): ViewModel() {
 
-    fun getAllTodos(): LiveData<List<com.sfr.data.source.local.entity.Todo>> = repository.getAllTodos()
+    fun getAllTodos(owner: LifecycleOwner): LiveData<List<Todo>> {
+        return repository.getAllTodos(owner)
+    }
 
-    fun getAllCompleted(): LiveData<List<com.sfr.data.source.local.entity.Todo>> = repository.getAllCompleted()
+    fun getAllCompleted(owner: LifecycleOwner): LiveData<List<Todo>> {
+        return repository.getAllCompleted(owner)
+    }
 
     fun addTodo(title: String, desc: String) {
         viewModelScope.launch {
-            repository.insert(com.sfr.data.source.local.entity.Todo(0, title, desc, false))
+            repository.insert(Todo(0, title, desc, false))
         }
     }
 
     fun updateTodo(id: Int, title: String, desc: String, checked: Boolean) {
         viewModelScope.launch {
-            repository.update(com.sfr.data.source.local.entity.Todo(id, title, desc, checked))
+            repository.update(Todo(id, title, desc, checked))
         }
     }
 

@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_edit">
         <argument
             android:name="todo"
-            app:argType="com.sfr.data.source.local.entity.Todo"
+            app:argType="com.sfr.domain.entity.Todo"
             app:nullable="true" />
     </fragment>
 </navigation>

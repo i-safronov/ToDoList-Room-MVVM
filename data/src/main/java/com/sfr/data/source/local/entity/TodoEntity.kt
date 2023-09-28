@@ -6,10 +6,16 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity
-data class Todo(
+@Entity(tableName = TodoEntity.TABLE_NAME)
+data class TodoEntity(
     @PrimaryKey(autoGenerate = true) var id: Int,
     var title: String,
     var description: String,
     var checked: Boolean
-) : Parcelable
+) : Parcelable {
+
+    companion object {
+        const val TABLE_NAME = "TodoEntityTable"
+    }
+
+}

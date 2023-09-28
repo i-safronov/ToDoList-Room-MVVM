@@ -1,7 +1,7 @@
 package com.sfr.data.source.local
 
 import androidx.lifecycle.LiveData
-import com.sfr.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.TodoEntity
 import com.sfr.data.source.local.room.TodoDAO
 
 class LocalDataSource private constructor(private val todoDAO: TodoDAO) {
@@ -13,13 +13,13 @@ class LocalDataSource private constructor(private val todoDAO: TodoDAO) {
             INSTANCE ?: LocalDataSource(todoDAO)
     }
 
-    fun getAllTodos(): LiveData<List<Todo>> = todoDAO.loadTodos()
+    fun getAllTodos(): LiveData<List<TodoEntity>> = todoDAO.loadTodos()
 
-    fun getAllCompleted(): LiveData<List<Todo>> = todoDAO.loadCompleted()
+    fun getAllCompleted(): LiveData<List<TodoEntity>> = todoDAO.loadCompleted()
 
-    suspend fun insert(todo: Todo) = todoDAO.insertTodo(todo)
+    suspend fun insert(todoEntity: TodoEntity) = todoDAO.insertTodo(todoEntity)
 
-    suspend fun update(todo: Todo) = todoDAO.updateTodo(todo)
+    suspend fun update(todoEntity: TodoEntity) = todoDAO.updateTodo(todoEntity)
 
     suspend fun deleteSelectedTodos() = todoDAO.deleteSelectedTodos()
 

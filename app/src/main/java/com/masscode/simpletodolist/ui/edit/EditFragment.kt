@@ -13,6 +13,7 @@ import com.masscode.simpletodolist.utils.hideKeyboard
 import com.masscode.simpletodolist.utils.shortToast
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
 import com.masscode.simpletodolist.viewmodel.TodoViewModelFactory
+import com.sfr.domain.entity.Todo
 
 /**
  * A simple [Fragment] subclass.
@@ -23,7 +24,7 @@ class EditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mTodo = EditFragmentArgs.fromBundle(requireArguments()).todo
+        val mTodo: Todo? = EditFragmentArgs.fromBundle(requireArguments()).todo
         // Inflate the layout for this fragment
         val binding = FragmentEditBinding.inflate(inflater).apply {
             todo = mTodo

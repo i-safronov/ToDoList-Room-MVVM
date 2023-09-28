@@ -7,12 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
-import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.ui.home.HomeFragmentDirections
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
+import com.sfr.domain.entity.Todo
 
 @BindingAdapter(value = ["todo", "vm"])
-fun isChecking(checkBox: CheckBox, todo: com.sfr.data.source.local.entity.Todo, viewModel: TodoViewModel) {
+fun isChecking(checkBox: CheckBox, todo: Todo, viewModel: TodoViewModel) {
     checkBox.setOnCheckedChangeListener(null)
     checkBox.isChecked = todo.checked
 
@@ -47,7 +47,7 @@ fun isStriked(textView: TextView, isCheck: Boolean) {
 }
 
 @BindingAdapter("android:goToEdit")
-fun goToEditFragment(imageView: ImageView, todo: com.sfr.data.source.local.entity.Todo) {
+fun goToEditFragment(imageView: ImageView, todo: Todo) {
     imageView.setOnClickListener { view ->
         view.findNavController()
             .navigate(HomeFragmentDirections.actionHomeFragmentToEditFragment(todo))

@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.masscode.simpletodolist.R
 import com.masscode.simpletodolist.adapter.ListAdapter
-import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.FragmentHomeBinding
 import com.masscode.simpletodolist.utils.hideKeyboard
 import com.masscode.simpletodolist.utils.shortToast
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
 import com.masscode.simpletodolist.viewmodel.TodoViewModelFactory
+import com.sfr.domain.entity.Todo
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 import java.text.SimpleDateFormat
 import java.util.*
@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllTodos() {
-        viewModel.getAllTodos().observe(viewLifecycleOwner) { list ->
+        viewModel.getAllTodos(viewLifecycleOwner).observe(viewLifecycleOwner) { list ->
             todoAdapter.setData(list)
 
             if (list.isEmpty()) {
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAllCompletedTodos() {
-        viewModel.getAllCompleted().observe(viewLifecycleOwner) { list ->
+        viewModel.getAllCompleted(viewLifecycleOwner).observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 binding.completed.text = list.size.toString()
                 showAllTodos(list)
@@ -109,7 +109,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showAllTodos(list: List<com.sfr.data.source.local.entity.Todo>) {
+    private fun showAllTodos(list: List<Todo>) {
         todoAdapter.setData(list)
     }
 

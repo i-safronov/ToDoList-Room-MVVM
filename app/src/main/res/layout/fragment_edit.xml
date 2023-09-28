@@ -7,7 +7,7 @@
 
         <variable
             name="todo"
-            type="com.sfr.data.source.local.entity.Todo" />
+            type="com.sfr.domain.entity.Todo" />
 
     </data>
 

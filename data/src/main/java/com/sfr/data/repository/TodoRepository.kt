@@ -1,10 +1,17 @@
 package com.sfr.data.repository
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.sfr.data.source.local.LocalDataSource
-import com.sfr.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.TodoEntity
+import com.sfr.data.source.local.entity.converter.ToDoConverter
+import com.sfr.domain.entity.Todo
+import com.sfr.domain.repository.ITodoRepository
 
-class TodoRepository(private val localDataSource: LocalDataSource) : ITodoRepository {
+class TodoRepository(
+    private val localDataSource: LocalDataSource
+) : ITodoRepository {
 
     companion object {
         @Volatile
@@ -16,20 +23,28 @@ class TodoRepository(private val localDataSource: LocalDataSource) : ITodoReposi
             }
     }
 
-    override fun getAllTodos(): LiveData<List<Todo>> {
-        return localDataSource.getAllTodos()
+    override fun getAllTodos(owner: LifecycleOwner): LiveData<List<Todo>> {
+        val mLiveData = MutableLiveData<List<Todo>>()
+        localDataSource.getAllTodos().observe(owner) {
+            mLiveData.postValue(ToDoConverter.convertListOfTodoEntityToListOfTodo(it))
+        }
+        return mLiveData
     }
 
-    override fun getAllCompleted(): LiveData<List<Todo>> {
-        return localDataSource.getAllCompleted()
+    override fun getAllCompleted(owner: LifecycleOwner): LiveData<List<Todo>> {
+        val mLiveData = MutableLiveData<List<Todo>>()
+        localDataSource.getAllCompleted().observe(owner) {
+            mLiveData.postValue(ToDoConverter.convertListOfTodoEntityToListOfTodo(it))
+        }
+        return mLiveData
     }
 
     override suspend fun insert(todo: Todo) {
-        localDataSource.insert(todo)
+        localDataSource.insert(ToDoConverter.convertTodoToTodoEntity(todo))
     }
 
     override suspend fun update(todo: Todo) {
-        localDataSource.update(todo)
+        localDataSource.update(ToDoConverter.convertTodoToTodoEntity(todo))
     }
 
     override suspend fun deleteSelectedTodos() {
@@ -39,4 +54,5 @@ class TodoRepository(private val localDataSource: LocalDataSource) : ITodoReposi
     override suspend fun clearTodos() {
         localDataSource.clearTodos()
     }
+
 }

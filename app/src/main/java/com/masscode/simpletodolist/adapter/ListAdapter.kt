@@ -6,20 +6,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.masscode.simpletodolist.R
-import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.ItemTodoBinding
-import com.masscode.simpletodolist.utils.logD
 import com.masscode.simpletodolist.viewmodel.TodoViewModel
+import com.sfr.domain.entity.Todo
 
 class ListAdapter(private val viewModel: TodoViewModel) :
     RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    private var dataList = emptyList<com.sfr.data.source.local.entity.Todo>()
+    private var dataList = emptyList<Todo>()
 
     class MyViewHolder(private val binding: ItemTodoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(todo: com.sfr.data.source.local.entity.Todo, viewModel: TodoViewModel) {
+        fun bind(todo: Todo, viewModel: TodoViewModel) {
             binding.todo = todo
             binding.viewModel = viewModel
             binding.executePendingBindings()
@@ -45,7 +44,7 @@ class ListAdapter(private val viewModel: TodoViewModel) :
         holder.bind(currentItem, viewModel)
     }
 
-    fun setData(toDoData: List<com.sfr.data.source.local.entity.Todo>) {
+    fun setData(toDoData: List<Todo>) {
         val toDoDiffUtil = TodoDiffUtil(dataList, toDoData)
         val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoData
