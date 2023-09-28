@@ -1,17 +1,17 @@
 package com.masscode.simpletodolist.di
 
 import android.content.Context
-import com.masscode.simpletodolist.data.repository.TodoRepository
-import com.masscode.simpletodolist.data.source.local.LocalDataSource
-import com.masscode.simpletodolist.data.source.local.room.TodoDb
+import com.sfr.data.repository.TodoRepository
+import com.sfr.data.source.local.LocalDataSource
+import com.sfr.data.source.local.room.TodoDb
 
 object Injection {
 
-    fun provideRepository(context: Context): TodoRepository {
-        val database = TodoDb.getInstance(context)
+    fun provideRepository(context: Context): com.sfr.data.repository.TodoRepository {
+        val database = com.sfr.data.source.local.room.TodoDb.getInstance(context)
 
-        val localDataSource = LocalDataSource.getInstance(database.todoDAO())
+        val localDataSource = com.sfr.data.source.local.LocalDataSource.getInstance(database.todoDAO())
 
-        return TodoRepository.getInstance(localDataSource)
+        return com.sfr.data.repository.TodoRepository.getInstance(localDataSource)
     }
 }

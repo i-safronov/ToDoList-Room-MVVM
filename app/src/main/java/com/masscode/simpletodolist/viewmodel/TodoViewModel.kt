@@ -5,26 +5,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.masscode.simpletodolist.data.repository.TodoRepository
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.repository.TodoRepository
+import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.di.Injection
 import kotlinx.coroutines.launch
 
-class TodoViewModel(private val repository: TodoRepository): ViewModel() {
+class TodoViewModel(private val repository: com.sfr.data.repository.TodoRepository): ViewModel() {
 
-    fun getAllTodos(): LiveData<List<Todo>> = repository.getAllTodos()
+    fun getAllTodos(): LiveData<List<com.sfr.data.source.local.entity.Todo>> = repository.getAllTodos()
 
-    fun getAllCompleted(): LiveData<List<Todo>> = repository.getAllCompleted()
+    fun getAllCompleted(): LiveData<List<com.sfr.data.source.local.entity.Todo>> = repository.getAllCompleted()
 
     fun addTodo(title: String, desc: String) {
         viewModelScope.launch {
-            repository.insert(Todo(0, title, desc, false))
+            repository.insert(com.sfr.data.source.local.entity.Todo(0, title, desc, false))
         }
     }
 
     fun updateTodo(id: Int, title: String, desc: String, checked: Boolean) {
         viewModelScope.launch {
-            repository.update(Todo(id, title, desc, checked))
+            repository.update(com.sfr.data.source.local.entity.Todo(id, title, desc, checked))
         }
     }
 
@@ -41,7 +41,6 @@ class TodoViewModel(private val repository: TodoRepository): ViewModel() {
     }
 }
 
-@Suppress("UNCHECKED_CAST")
 class TodoViewModelFactory(private val mTodoRepository: TodoRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
@@ -55,7 +54,8 @@ class TodoViewModelFactory(private val mTodoRepository: TodoRepository) :
             }
     }
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return TodoViewModel(mTodoRepository) as T
     }
+
 }

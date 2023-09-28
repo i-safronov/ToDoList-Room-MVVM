@@ -1,8 +1,8 @@
-package com.masscode.simpletodolist.data.source.local.room
+package com.sfr.data.source.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.Todo
 
 @Dao
 interface TodoDAO {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.masscode.simpletodolist.R
 import com.masscode.simpletodolist.adapter.ListAdapter
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.Todo
 import com.masscode.simpletodolist.databinding.FragmentHomeBinding
 import com.masscode.simpletodolist.utils.hideKeyboard
 import com.masscode.simpletodolist.utils.shortToast
@@ -109,7 +109,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showAllTodos(list: List<Todo>) {
+    private fun showAllTodos(list: List<com.sfr.data.source.local.entity.Todo>) {
         todoAdapter.setData(list)
     }
 

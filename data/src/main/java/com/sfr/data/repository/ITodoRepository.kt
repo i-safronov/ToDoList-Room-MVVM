@@ -1,7 +1,7 @@
-package com.masscode.simpletodolist.data.repository
+package com.sfr.data.repository
 
 import androidx.lifecycle.LiveData
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.Todo
 
 interface ITodoRepository {
 

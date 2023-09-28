@@ -1,8 +1,8 @@
-package com.masscode.simpletodolist.data.source.local
+package com.sfr.data.source.local
 
 import androidx.lifecycle.LiveData
-import com.masscode.simpletodolist.data.source.local.entity.Todo
-import com.masscode.simpletodolist.data.source.local.room.TodoDAO
+import com.sfr.data.source.local.entity.Todo
+import com.sfr.data.source.local.room.TodoDAO
 
 class LocalDataSource private constructor(private val todoDAO: TodoDAO) {
 

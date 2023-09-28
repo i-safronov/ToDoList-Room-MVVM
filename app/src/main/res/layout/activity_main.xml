@@ -29,8 +29,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainToolbar"
-            app:navGraph="@navigation/nav_graph"
-            tools:ignore="FragmentTagUsage" />
+            app:navGraph="@navigation/nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

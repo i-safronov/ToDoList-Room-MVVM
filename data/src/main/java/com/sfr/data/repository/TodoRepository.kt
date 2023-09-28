@@ -1,8 +1,8 @@
-package com.masscode.simpletodolist.data.repository
+package com.sfr.data.repository
 
 import androidx.lifecycle.LiveData
-import com.masscode.simpletodolist.data.source.local.LocalDataSource
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.source.local.LocalDataSource
+import com.sfr.data.source.local.entity.Todo
 
 class TodoRepository(private val localDataSource: LocalDataSource) : ITodoRepository {
 

@@ -1,11 +1,11 @@
 package com.masscode.simpletodolist.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.masscode.simpletodolist.data.source.local.entity.Todo
+import com.sfr.data.source.local.entity.Todo
 
 class TodoDiffUtil(
-    private val oldList: List<Todo>,
-    private val newList: List<Todo>
+    private val oldList: List<com.sfr.data.source.local.entity.Todo>,
+    private val newList: List<com.sfr.data.source.local.entity.Todo>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
