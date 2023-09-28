@@ -1,4 +1,4 @@
-package com.sfr.domain.use_case.todo
+package com.sfr.domain.use_case.todo.create
 
 import com.sfr.domain.entity.Todo
 import com.sfr.domain.repository.ITodoRepository
